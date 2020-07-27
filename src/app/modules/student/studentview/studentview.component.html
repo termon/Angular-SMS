@@ -1,0 +1,24 @@
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Student Details</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="card-text"><i class="fas fa-at mr-1"></i>{{student.name}}</p>
+                <p class="card-text"><i class="fas fa-at mr-1"></i>{{student.email}}</p>
+                <p class="card-text"><i class="fas fa-clock mr-1"></i>{{student.age}}</p>
+                <p class="card-text"><i class="fas fa-camera mr-1"></i>{{student.course}}</p>  
+            </div>
+            <div class="col-md-6">
+                <img src="{{student.photoUrl}}"  class="col-6 img-fluid img-thumbnail"/>
+            </div>
+        </div>        
+    </div>
+    <div class="card-footer text-muted">
+        <a class="card-link" [routerLink]="['/students']"><i class="fas fa-list mr-2"></i>Students</a>
+        <a class="card-link" [routerLink]="" (click)="delete(student)"><i class="fas fa-trash mr-2"></i>Delete</a>
+        <a class="card-link" [routerLink]="['/students', student.id, 'update']"><i class="fas fa-edit mr-2"></i>Edit</a>
+    </div>
+  </div> 
+
+  

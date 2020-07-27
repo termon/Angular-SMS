@@ -1,0 +1,24 @@
+<h3>{{title}}</h3>
+
+<a class="btn btn-primary btn-sm mb-3" [routerLink]="['/students/create']">Create Student</a>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Age</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of students">
+      <th scope="row">{{s.id}}</th>
+      <td>{{s.name}}</td>
+      <td>{{s.email}}</td>
+      <td>{{s.age}}</td>
+      <td><a class="btn btn-link btn-sm" [routerLink]="['/students', s.id]">View</a></td>
+    </tr>
+  </tbody>
+</table>

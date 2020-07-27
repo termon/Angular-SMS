@@ -1,0 +1,55 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="card">
+        
+        <div class="card-header bg-primary">
+            <h5 class="text-light">Student Details</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input formControlName="name"  name="name" class="form-control"/>
+                <span class="text-danger" *ngIf="f.name.touched && f.name.errors?.required">Name required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input formControlName="email" name="email" class="form-control"/>
+                <span class="text-danger" *ngIf="f.email.touched && f.email.errors?.required">Email required</span>
+                <span class="text-danger" *ngIf="f.email.touched && f.email.errors?.emailNotAvailable">Email already registered</span>        
+            </div>
+
+            <div class="form-group">
+                <label for="age" class="control-label">Age</label>
+                <input formControlName="age" type="number" name="age" class="form-control"/>
+                <span class="text-danger" *ngIf="f.age.touched && f.age.errors?.required">Age required</span>
+                <span class="text-danger" *ngIf="f.age.touched && f.age.errors?.min">Too young</span>
+                <span class="text-danger" *ngIf="f.age.touched && f.age.errors?.max">Too Old</span>
+
+            </div>
+
+            <div class="form-group">
+                <label for="course" class="control-label">Course</label>
+                <input formControlName="course"  name="course" class="form-control"/>
+                <span class="text-danger" *ngIf="f.course.touched && f.course.invalid">Course required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="photoUrl" class="control-label">Photo Url</label>
+                <input formControlName="photoUrl" name="photoUrl" class="form-control"/>
+                <span class="text-danger" *ngIf="f.photoUrl.touched && f.photoUrl.errors?.required">PhotoUrl required</span>
+                <span class="text-danger" *ngIf="f.photoUrl.touched && f.photoUrl.errors?.pattern">Invalid Url</span>
+            </div>
+
+        </div>
+
+        <div class="card-footer">           
+            <input type="submit" value="Save" class="btn btn-primary mr-3" [disabled]="!form.valid"/>
+            <a class="btn btn-secondary" (click)="onCancel()">Cancel</a>
+        </div>
+    </div>
+
+    {{ f.email.errors | json }}
+
+</form>
+
