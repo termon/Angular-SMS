@@ -1,3 +1,4 @@
+import { TicketDto } from './ticket';
 
 export class StudentDto {
     public id: number;
@@ -9,18 +10,7 @@ export class StudentDto {
     public photoUrl: string;
     public tickets: TicketDto[] = [];
 
-    constructor(){}
-
-    
-}
-
-export class TicketDto {
-    public id: number;
-    public studentId: number;
-    public issue: string;
-    public on = new Date(Date.now());
-    public active = true;
-
     constructor() {}
 
- }
+}
+

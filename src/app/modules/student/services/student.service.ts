@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject, of  } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 
-import { StudentDto } from '../models/Student';
+import { StudentDto } from '../models/student';
 import { LoadingService } from 'src/app/core/loading/loading.service';
 
 @Injectable({

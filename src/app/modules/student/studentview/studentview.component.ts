@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { StudentService } from '../services/student.service';
-import { StudentDto } from '../models/Student';
+import { StudentDto } from '../models/student';
 
 @Component({
   selector: 'app-studentview',

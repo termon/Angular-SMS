@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { StudentService } from '../services/student.service';
-import { StudentDto } from '../models/Student';
+import { StudentDto } from '../models/student';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
@@ -33,7 +33,6 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
       course: ['', [Validators.required]],
       photoUrl: ['', [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]]
     });
-
   }
 
   // update model from form and emit event
@@ -60,6 +59,8 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
         course: this.model.course,
         photoUrl: this.model.photoUrl,
       });
+      // force validators to run when form loaded
+      this.form.markAllAsTouched();
     }
   }
 

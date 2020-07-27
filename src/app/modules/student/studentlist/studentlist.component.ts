@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StudentDto } from '../models/Student';
+import { StudentDto } from '../models/student';
 import { StudentService } from '../services/student.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -27,7 +27,7 @@ export class StudentlistComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     console.log('studentList unsubscribe from studentsub');
     this.studentSub.unsubscribe();
   }

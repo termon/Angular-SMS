@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import  { StudentformComponent } from '../studentform/studentform.component';
-import { StudentDto } from '../models/Student';
+import { StudentformComponent } from '../studentform/studentform.component';
+import { StudentDto } from '../models/student';
 import { StudentService } from '../services/student.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class StudentcreateComponent {
     private toastr: ToastrService
   ) { }
 
-  onSave() {
+  onSave(): void {
       this.studentService.add(this.model).subscribe(r => {
             console.log('Create', r);
             this.router.navigate(['/students']);
@@ -29,7 +29,7 @@ export class StudentcreateComponent {
       });
   }
 
-  onCancel() {
+  onCancel(): void {
     console.log('Cancelling creation');
     this.router.navigate(['/students']);
     this.toastr.info('Student Creation Cancelled');
