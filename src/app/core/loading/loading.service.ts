@@ -16,11 +16,11 @@ export class LoadingService {
 
   constructor() { }
 
-  loadingOn() {
+  loadingOn(): void {
     this.loadingSubject.next(true);
   }
 
-  loadingOff() {
+  loadingOff(): void {
     this.loadingSubject.next(false);
   }
 

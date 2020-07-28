@@ -15,7 +15,7 @@ import { HttpErrorInterceptor } from './core/interceptors/HttpErrorInterceptor';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentModule } from './modules/student/student.module';
-import { BootstrapModule } from './modules/bootstrap/bootstrap.module';
+// import { BootstrapModule } from './modules/bootstrap/bootstrap.module';
 
 @NgModule({
   declarations: [

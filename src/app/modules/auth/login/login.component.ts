@@ -22,18 +22,18 @@ export class LoginComponent implements OnInit {
     this.model = new Login();
   }
 
-  private loginSuccess(r: User) {
+  private loginSuccess(r: User): void {
     console.log('Login Response', r)
     this.toastr.success('Successfully logged in');
     this.router.navigate(['/']);
   }
 
-  private loginFailure(r: HttpErrorResponse) {
+  private loginFailure(r: HttpErrorResponse): void {
       console.log('Error response', r);
       this.toastr.error(r.message, 'Error', {timeOut: 5000});
   }
 
-  onSubmit() {
+  onSubmit(): void {
     console.log('Submit', this.model);
     this.auth.login(this.model.emailAddress, this.model.password)
         .subscribe(

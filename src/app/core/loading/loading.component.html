@@ -1,6 +1,7 @@
 <div class="container" *ngIf="loadingService.loading$ | async">
     <div class="row">
-      <div id="loader">
+
+      <div *ngIf="style === 'loader'" class="loader" [style.width.rem]="size" [style.height.rem]="size">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -10,10 +11,22 @@
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="loading"></div>
+      </div> 
+
+      <div *ngIf="style === 'spinner'" class="fading-circle-spinner" [style.width.rem]="size" [style.height.rem]="size">
+        <div class="circle1 circle"></div>
+        <div class="circle2 circle"></div>
+        <div class="circle3 circle"></div>
+        <div class="circle4 circle"></div>
+        <div class="circle5 circle"></div>
+        <div class="circle6 circle"></div>
+        <div class="circle7 circle"></div>
+        <div class="circle8 circle"></div>
+        <div class="circle9 circle"></div>
+        <div class="circle10 circle"></div>
+        <div class="circle11 circle"></div>
+        <div class="circle12 circle"></div>
       </div>
-  
-      <p class="spinner-message" *ngIf="message && message !== ''">
-        {{message}}
-      </p>
-    </div>
+
+     </div>
   </div>

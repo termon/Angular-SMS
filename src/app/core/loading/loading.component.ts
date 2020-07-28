@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LoadingService } from './loading.service';
 
 @Component({
@@ -6,15 +6,13 @@ import { LoadingService } from './loading.service';
   templateUrl: './loading.component.html',
   styleUrls: ['./loading.component.css']
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent {
 
   @Input() message = '';
+  @Input() size = 10;
 
-  isLoading = false;
+  style = 'spinner'; // 'spinner' || 'loader'
 
   constructor(public loadingService: LoadingService) { }
-
-  ngOnInit(): void {
-  }
 
 }

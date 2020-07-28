@@ -8,17 +8,19 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthComponent } from './auth/auth.component';
 
 // JwtModule and HttpClientModule must be added to root module
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent],
+  declarations: [LoginComponent, RegisterComponent, AuthComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     FormsModule
   ],
-  providers: [AuthService, AuthGuardService]
+  providers: [AuthService, AuthGuardService],
+  exports: [AuthComponent] // components accessible outside the module
 })
 
 export class AuthModule {}
