@@ -13,10 +13,22 @@
                 <img src="{{student.photoUrl}}"  class="col-6 img-fluid img-thumbnail"/>
             </div>
         </div>
+
+        <h5 class="mt-3">Modules</h5>  
+        <div class="row">         
+          <div class="card mr-1" *ngFor="let m of student.studentModules">
+            <div class="card-header bg-info">{{ m.title}}</div>
+            <div class="card-body">              
+              <p class="card-text">{{ m.mark}} ({{ m.mark | grader }}) </p>
+            </div>
+          </div>
+          <span *ngIf="student.studentModules.length===0">No modules...</span>
+        </div>     
+
         <h5 class="mt-3">Tickets</h5>  
         <div class="row">           
-            <table class="table">
-                <thead class="thead-dark">
+            <table class="table table-sm">
+                <thead>
                   <tr>
                     <th scope="col">Issue</th>
                     <th scope="col">On</th>
@@ -25,22 +37,25 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let t of student.tickets">
+                  <tr *ngFor="let t of student.tickets" [class.bg-light]="t.active">
                     <td>{{t.issue}}</td>
                     <td>{{t.createdOn | date }} </td>
                     <td>{{t.active}}</td>
-                    <td>Close</td>
+                    <td> <button [disabled]="!t.active" class="btn btn-sm btn-secondary" (click)="closeTicket(t.id)">Close</button></td>
                   </tr>
                 </tbody>
               </table>
               <span *ngIf="student.tickets.length===0">No tickets...</span>
-        </div>      
+        </div>
+
     </div>
+
     <div class="card-footer text-muted">
         <a class="card-link" [routerLink]="['/students']"><i class="fas fa-list mr-2"></i>Students</a>
         <a class="card-link" [routerLink]="" (click)="delete(student)"><i class="fas fa-trash mr-2"></i>Delete</a>
         <a class="card-link" [routerLink]="['/students', student.id, 'update']"><i class="fas fa-edit mr-2"></i>Edit</a>
     </div>
+
   </div> 
 
   

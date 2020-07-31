@@ -14,3 +14,18 @@ export class GradePipe implements PipeTransform {
   }
 
 }
+
+@Pipe({
+  name: 'grade-colour'
+})
+export class GradeColourPipe implements PipeTransform {
+
+  transform(value: number): string {
+    if (value < 40) { return 'danger'; }
+    else if (value < 50) { return 'warning'; }
+    else if (value < 60) { return 'success'; }
+    else if (value < 70) { return 'success'; }
+    else { return 'primary'; }
+  }
+
+}

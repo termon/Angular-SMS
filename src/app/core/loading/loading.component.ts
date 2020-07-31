@@ -9,7 +9,7 @@ import { LoadingService } from './loading.service';
 export class LoadingComponent {
 
   @Input() message = '';
-  @Input() size = 10;
+  @Input() size = 7;
 
   style = 'spinner'; // 'spinner' || 'loader'
 

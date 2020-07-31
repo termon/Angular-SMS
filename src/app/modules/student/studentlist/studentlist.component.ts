@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs';
 })
 export class StudentlistComponent implements OnInit, OnDestroy {
 
-  title = 'Student List';
+  title = 'Registered Students';
   students: StudentDto[] = [];
-  private studentSub: Subscription;
+  private sub: Subscription;
 
   constructor(private studentService: StudentService,
               private router: Router,
@@ -22,14 +22,23 @@ export class StudentlistComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.studentSub = this.studentService.students$.subscribe(
+    // subscribe to students stream
+    console.log('studentList subscribe to sub');
+    this.sub = this.studentService.students$.subscribe(
        s => this.students = s
     );
   }
 
   ngOnDestroy(): void {
-    console.log('studentList unsubscribe from studentsub');
-    this.studentSub.unsubscribe();
+    console.log('studentList unsubscribe from sub');
+    this.sub.unsubscribe();
+  }
+
+  delete(id: number): void {
+    this.studentService.delete(id).subscribe(
+      r => this.toastr.info('Student deleted'),
+      e => this.toastr.error(e.message)
+    );
   }
 
 }

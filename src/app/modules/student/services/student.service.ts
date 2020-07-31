@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject, of  } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 
-import { StudentDto } from '../models/student';
+import { StudentDto, TicketDto } from '../models/student';
 import { LoadingService } from 'src/app/core/loading/loading.service';
 
 @Injectable({
@@ -23,20 +23,24 @@ export class StudentService {
     private http: HttpClient,
     private loadingService: LoadingService
   ) {
-    this.load();
+    this.loadStudents();
   }
 
-  load(): void {
+  loadStudents(): void {
     this.loadingService.loadingOn();
-    this.getStudents().subscribe(r => {
-      // simulated delay to test loading spinner
-      setTimeout(() => {
-        console.log('studentservice loading', r);
-        this.students = r;
-        this.studentsSubject$.next(this.students);
-        this.loadingService.loadingOff();
-      }, 1000);
-
+    this.getStudents().subscribe(
+      r => {
+        // simulated delay to test loading spinner
+        setTimeout(() => {
+          console.log('studentservice loading students', r);
+          this.students = r;
+          this.studentsSubject$.next(this.students);
+          this.loadingService.loadingOff();
+        }, 1000);
+    },
+    e => {
+      this.loadingService.loadingOff();
+      console.log(e.message);
     });
   }
 
@@ -48,27 +52,38 @@ export class StudentService {
 
   add(s: StudentDto) {
     return this.addStudent(s).pipe(
-      tap( r => this.load())
+      tap( r => this.loadStudents())
       // tap(n => this.studentSubject$.next([...this.students, n]))
     );
   }
 
   update(s: StudentDto ) {
     return this.updateStudent(s).pipe(
-      tap( r => this.load())
+      tap( r => this.loadStudents())
       // tap(u => this.studentSubject$.next([...this.students.filter(e => e.id !== u.id), u]))
     );
   }
 
   delete(id: number) {
     return this.deleteStudent(id).pipe(
-      tap( r => this.load())
+      tap( r => this.loadStudents())
       // tap(() => this.studentSubject$.next([...this.students.filter(e => e.id !== id)]))
     );
   }
 
-  get(id: number): Observable<StudentDto> {
-    return this.getStudent(id).pipe(tap(s => this.currentSubject$.next(s)));
+  loadCurrent(id: number): void {
+    this.getStudent(id).subscribe(
+      s => {
+        this.currentSubject$.next(s);
+        console.log('studentservice loading student', s);
+      },
+      e => console.log('studentservice error loading student', id)
+    );
+  }
+
+  close(id: number): Observable<TicketDto> {
+    return this.closeTicket(id)
+      .pipe(tap(t => this.loadCurrent(t.studentId)));
   }
 
   verifyEmailAvailable(email: string, id?: number): Observable<boolean> {
@@ -102,6 +117,10 @@ export class StudentService {
     } else {
       return this.http.get<boolean>(`https://localhost:5001/api/student/verify/${email}/${id}`);
     }
+  }
+
+  private closeTicket(id: number): Observable<TicketDto> {
+    return this.http.put<TicketDto>(`https://localhost:5001/api/ticket/close/${id}`, {});
   }
 
 }
