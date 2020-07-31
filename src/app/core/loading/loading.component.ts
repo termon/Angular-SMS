@@ -8,10 +8,9 @@ import { LoadingService } from './loading.service';
 })
 export class LoadingComponent {
 
-  @Input() message = '';
-  @Input() size = 7;
+  @Input() size = 7; // size in rem
 
-  style = 'spinner'; // 'spinner' || 'loader'
+  @Input() type = 'spinner'; // 'spinner' || 'loader'
 
   constructor(public loadingService: LoadingService) { }
 

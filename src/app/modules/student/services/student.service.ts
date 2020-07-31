@@ -16,6 +16,7 @@ export class StudentService {
 
   private studentsSubject$ = new BehaviorSubject<StudentDto[]>(this.students);
   private currentSubject$ = new BehaviorSubject<StudentDto>(this.current);
+
   students$ = this.studentsSubject$.asObservable();
   current$ = this.currentSubject$.asObservable();
 
@@ -26,6 +27,7 @@ export class StudentService {
     this.loadStudents();
   }
 
+  // update observable students$ stream with data from api
   loadStudents(): void {
     this.loadingService.loadingOn();
     this.getStudents().subscribe(
@@ -37,11 +39,26 @@ export class StudentService {
           this.studentsSubject$.next(this.students);
           this.loadingService.loadingOff();
         }, 1000);
-    },
-    e => {
-      this.loadingService.loadingOff();
-      console.log(e.message);
-    });
+      },
+      e => console.log(e.message),
+    );
+  }
+
+  // update observable current$ student stream with data from api
+  loadCurrent(id: number): void {
+    this.loadingService.loadingOn();
+    this.getStudent(id).subscribe(
+      s => {
+          console.log('studentservice loading student', s);
+          this.current = s;
+          this.currentSubject$.next(this.current);
+          this.loadingService.loadingOff();
+      },
+      e => {
+          console.log('studentservice error loading student', id);
+          this.loadingService.loadingOff();
+      }
+    );
   }
 
   clear(): void {
@@ -50,34 +67,24 @@ export class StudentService {
     this.studentsSubject$.next(this.students);
   }
 
-  add(s: StudentDto) {
+  add(s: StudentDto): Observable<StudentDto> {
     return this.addStudent(s).pipe(
       tap( r => this.loadStudents())
       // tap(n => this.studentSubject$.next([...this.students, n]))
     );
   }
 
-  update(s: StudentDto ) {
+  update(s: StudentDto ): Observable<StudentDto> {
     return this.updateStudent(s).pipe(
       tap( r => this.loadStudents())
       // tap(u => this.studentSubject$.next([...this.students.filter(e => e.id !== u.id), u]))
     );
   }
 
-  delete(id: number) {
+  delete(id: number): Observable<boolean> {
     return this.deleteStudent(id).pipe(
       tap( r => this.loadStudents())
       // tap(() => this.studentSubject$.next([...this.students.filter(e => e.id !== id)]))
-    );
-  }
-
-  loadCurrent(id: number): void {
-    this.getStudent(id).subscribe(
-      s => {
-        this.currentSubject$.next(s);
-        console.log('studentservice loading student', s);
-      },
-      e => console.log('studentservice error loading student', id)
     );
   }
 

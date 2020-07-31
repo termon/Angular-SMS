@@ -1,7 +1,7 @@
 <div class="container" *ngIf="loadingService.loading$ | async">
     <div class="row">
 
-      <div *ngIf="style === 'loader'" class="loader" [style.width.rem]="size" [style.height.rem]="size">
+      <div *ngIf="type === 'loader'" class="loader" [style.width.rem]="size" [style.height.rem]="size">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -13,7 +13,7 @@
         <div class="loading"></div>
       </div> 
 
-      <div *ngIf="style === 'spinner'" class="fading-circle-spinner" [style.width.rem]="size" [style.height.rem]="size">
+      <div *ngIf="type === 'spinner'" class="fading-circle-spinner" [style.width.rem]="size" [style.height.rem]="size">
         <div class="circle1 circle"></div>
         <div class="circle2 circle"></div>
         <div class="circle3 circle"></div>

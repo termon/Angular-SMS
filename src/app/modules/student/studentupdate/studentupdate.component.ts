@@ -21,7 +21,17 @@ export class StudentupdateComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.load();
+    this.route.paramMap.subscribe(
+      params => {
+        this.studentService.loadCurrent(+params.get('id'));
+      },
+      error => {
+        this.toastr.error(error.message);
+        this.router.navigate(['/students']);
+      }
+    );
+    // subscribe to service current$ student steam
+    this.studentService.current$.subscribe(c => this.model = c);
   }
 
   onSave(): void {
@@ -35,22 +45,5 @@ export class StudentupdateComponent implements OnInit {
     this.router.navigate(['/students']);
     this.toastr.info(`Cancelled ${this.mode}`);
   }
-
-  load(): void {
-    this.route.paramMap.subscribe(params => {
-    this.studentService.get(+params.get('id'))
-        .subscribe(
-          r => {
-            this.model = r;
-            console.log('load', this.model);
-          },
-          e => {
-            this.toastr.warning('Could not locate student');
-            this.router.navigate(['/students']);
-          }
-        );
-    });
-  }
-
 
 }

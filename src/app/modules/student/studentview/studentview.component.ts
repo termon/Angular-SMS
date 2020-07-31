@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { StudentService } from '../services/student.service';
 import { StudentDto } from '../models/student';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-studentview',
@@ -23,23 +23,11 @@ export class StudentviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.studentService.loadCurrent(+params.get('id'));
-    });
+    // use service to load requested student into current$ stream
+    this.loadStudentFromRouteParam();
+    // subscribe to service current$ student steam
     this.studentService.current$.subscribe(c => this.student = c);
   }
-
-  // ngOnInit(): void {
-  //   this.route.paramMap.subscribe((params) => {
-  //     this.studentService.get(+params.get('id')).subscribe(
-  //       r =>  this.student = c,
-  //       e =>   {
-  //         this.toastr.warning('Could not locate student');
-  //         this.router.navigate(['/students']);
-  //       }
-  //     );
-  //   });
-  // }
 
   delete(student: StudentDto): void {
     this.studentService.delete(student.id).subscribe((r) => {
@@ -51,8 +39,21 @@ export class StudentviewComponent implements OnInit {
 
   closeTicket(id: number): void {
     this.studentService.close(id).subscribe(
-      r => this.toastr.success('Ticket closed Successfully'),
+      r => this.toastr.success(`Ticket ${r.id} closed Successfully`),
       e => this.toastr.error(e.message)
       );
   }
+
+  private loadStudentFromRouteParam(): void {
+    this.route.paramMap.subscribe(
+      params => {
+        this.studentService.loadCurrent(+params.get('id'));
+      },
+      error => {
+        this.toastr.error(error.message);
+        this.router.navigate(['/students']);
+      }
+    );
+  }
+
 }

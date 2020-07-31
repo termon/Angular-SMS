@@ -1,13 +1,9 @@
-/* Loader */
+/* ======================  Loader Spinner  ========================= */
 .loader {
-    bottom: 0;
-    height: 175px;
-    left: 0;
+    height: 7rem; 
     margin: auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 175px;
+	position: relative;
+    width: 7rem;
   }
   
   .loader .dot {
@@ -130,18 +126,13 @@
     }
   }
   
-  /* Circle Spinner */
+  /* ================ Circle Spinner ======================== */
 
   .fading-circle-spinner {
     margin: auto;
-    bottom: 0;
-    height: 175px;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 175px;
+    position: relative;
+	width: 7rem;
+	height: 7rem;
 }
 
 .fading-circle-spinner .circle {

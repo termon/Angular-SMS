@@ -16,7 +16,7 @@ export class StudentlistComponent implements OnInit, OnDestroy {
   students: StudentDto[] = [];
   private sub: Subscription;
 
-  constructor(private studentService: StudentService,
+  constructor(public studentService: StudentService,
               private router: Router,
               private toastr: ToastrService,
   ) { }
