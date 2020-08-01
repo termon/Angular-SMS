@@ -13,6 +13,7 @@ import { StudentcreateComponent } from './studentcreate/studentcreate.component'
 import { StudentupdateComponent } from './studentupdate/studentupdate.component';
 import { StudentreactiveformComponent } from './studentreactiveform/studentreactiveform.component';
 import { EmailAvailableValidator } from './studentform/emailavailable-validator';
+import { CoreModule } from '../../core/core.module';
 
 @NgModule({
   declarations: [
@@ -26,10 +27,12 @@ import { EmailAvailableValidator } from './studentform/emailavailable-validator'
     EmailAvailableValidator
   ],
   imports: [
-    CommonModule,
+    CoreModule,
+    // CommonModule, // in core module so not needed
     StudentRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   exports: [
     StudentlistComponent,

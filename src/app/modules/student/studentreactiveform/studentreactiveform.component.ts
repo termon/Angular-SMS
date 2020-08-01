@@ -29,7 +29,7 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
     this.form = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email], [this.emailAvailableAsync()]],
-      age: ['', [Validators.required, Validators.min(16), Validators.max(70)]],
+      age: ['', [Validators.required, Validators.min(17), Validators.max(70)]],
       course: ['', [Validators.required]],
       photoUrl: ['', [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]]
     });

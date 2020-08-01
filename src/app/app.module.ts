@@ -15,7 +15,6 @@ import { HttpErrorInterceptor } from './core/interceptors/HttpErrorInterceptor';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentModule } from './modules/student/student.module';
-// import { BootstrapModule } from './modules/bootstrap/bootstrap.module';
 
 @NgModule({
   declarations: [
@@ -25,11 +24,7 @@ import { StudentModule } from './modules/student/student.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 2000,
-      // positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
+    ToastrModule.forRoot({ timeOut: 2000, preventDuplicates: true }),
     HttpClientModule,
     JwtModule.forRoot({
       config: {
@@ -44,7 +39,6 @@ import { StudentModule } from './modules/student/student.module';
     CoreModule,
     AuthModule,
     StudentModule,
-    // BootstrapModule // ngx-bootstrap
   ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }

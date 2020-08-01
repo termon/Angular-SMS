@@ -52,7 +52,7 @@
 
     <div class="card-footer text-muted">
         <a class="card-link" [routerLink]="['/students']"><i class="fas fa-list mr-2"></i>Students</a>
-        <a class="card-link" [routerLink]="" (click)="delete(student)"><i class="fas fa-trash mr-2"></i>Delete</a>
+        <a class="card-link" [routerLink]="" (click)="confirm(student)"><i class="fas fa-trash mr-2"></i>Delete</a>
         <a class="card-link" [routerLink]="['/students', student.id, 'update']"><i class="fas fa-edit mr-2"></i>Edit</a>
     </div>
 

@@ -14,12 +14,12 @@ export class StudentformComponent {
   @Output() saveEmitter = new EventEmitter<StudentDto>();
   @Output() cancelEmitter = new EventEmitter();
 
-  onSubmit() {
+  onSubmit(): void {
     console.log('saving', this.model);
     this.saveEmitter.emit(this.model);
   }
 
-  onCancel() {
+  onCancel(): void {
     console.log('cancel');
     this.cancelEmitter.emit();
   }

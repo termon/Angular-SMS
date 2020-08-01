@@ -35,10 +35,15 @@ export class StudentupdateComponent implements OnInit {
   }
 
   onSave(): void {
-    this.studentService.update(this.model).subscribe(r => {
+    this.studentService.update(this.model).subscribe(
+      r => {
           this.router.navigate(['/students', this.model.id]);
           this.toastr.success(`Completed ${this.mode}`);
-    });
+      },
+      e => {
+        this.toastr.error(`${e.message} - ${e.errors.join()}`);
+      }
+    );
   }
 
   onCancel(): void {

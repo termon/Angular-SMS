@@ -4,6 +4,8 @@ import { StudentService } from '../services/student.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { ConfirmModalComponent } from '../../../core/confirm-modal/confirm-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-studentlist',
@@ -19,6 +21,7 @@ export class StudentlistComponent implements OnInit, OnDestroy {
   constructor(public studentService: StudentService,
               private router: Router,
               private toastr: ToastrService,
+              private modal: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -34,10 +37,18 @@ export class StudentlistComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  delete(id: number): void {
-    this.studentService.delete(id).subscribe(
-      r => this.toastr.info('Student deleted'),
-      e => this.toastr.error(e.message)
+  delete(s: StudentDto): void {
+    const ref = this.modal.open(ConfirmModalComponent, { centered: true });
+    ref.componentInstance.title = 'Confirm';
+    ref.componentInstance.message = `Are you sure you want to delete student ${s.name}`;
+    ref.result.then(
+      (resolve) => {
+        this.studentService.delete(s.id).subscribe(
+          r => this.toastr.info('Student deleted'),
+          e => this.toastr.error(e.message)
+        );
+      },
+      (reject) => this.toastr.info('Student deletion Cancelled')
     );
   }
 
