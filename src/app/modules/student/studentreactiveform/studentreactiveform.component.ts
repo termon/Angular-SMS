@@ -45,7 +45,6 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
     this.model.age = this.f.age.value;
     this.model.course = this.f.course.value;
     this.model.photoUrl = this.f.photoUrl.value;
-    console.log('saving', this.model);
     this.saveEmitter.emit(this.model);
   }
 
@@ -67,7 +66,6 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
   }
 
   onCancel(): void {
-    console.log('cancel');
     this.cancelEmitter.emit();
   }
 

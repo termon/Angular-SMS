@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { Register } from '../models/Register';
@@ -6,17 +6,22 @@ import { Register } from '../models/Register';
 import { tap } from 'rxjs/operators';;
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
-
-
+import { LogService } from '../../../core/services/log.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
 
   private baseUrl = 'https://localhost:5001';
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+  constructor(
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService,
+    private log: LogService
+  ) {
+    this.log.debug('AuthService', 'created....');
+  }
 
   login(email: string, password: string ): Observable<User> {
       return this.http
@@ -28,42 +33,44 @@ export class AuthService {
         );
   }
 
-  register(request: Register ) {
-    console.log('Register', JSON.stringify(request));
+  register(request: Register ): Observable<User> {
+    this.log.info('AuthService', 'Register', request);
     return this.http
       .post<User>(`${this.baseUrl}/api/user/register`, request);
   }
 
-  logout() {
-      console.log('Logging out - deleting token');
+  logout(): void {
+      this.log.debug('AuthService', 'logout');
       localStorage.removeItem('token');
   }
 
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
     // Check whether the token is expired and return true or false
     return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 
-  getEmail() {
+  getEmail(): string {
     const claims = this.jwtHelper.decodeToken(localStorage.getItem('token'));
     return ('email' in claims) ? claims.email : '';
   }
 
-  isLoggedOut() {
+  isLoggedOut(): boolean {
       return !this.isLoggedIn();
   }
 
-  private setSession(authResult: string) {
-    console.log('Setting session', authResult);
+  private setSession(authResult: string): void {
+    this.log.debug('AuthService', 'storing token', authResult);
     localStorage.setItem('token', authResult);
-    console.log(this.jwtHelper.decodeToken(localStorage.getItem('token')));
-
   }
 
   verifyEmailAvailable(email: string): Observable<boolean> {
-    console.log('Verifying email ${email}')
+    this.log.debug('AuthService', 'verifying email', email);
     return this.http.get<boolean>(`${this.baseUrl}/api/user/verify/${email}`);
+  }
+
+  ngOnDestroy(): void {
+    this.log.debug('AuthService destroyed....');
   }
 
 }

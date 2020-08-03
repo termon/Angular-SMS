@@ -11,11 +11,12 @@ import {
 import { Observable, throwError, of } from 'rxjs';
 import { map, catchError} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { LogService } from '../services/log.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-    constructor(private toastr: ToastrService) {}
+    constructor(private toastr: ToastrService, private log: LogService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -27,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 return event;
             }),
             catchError((response: HttpErrorResponse) => {
-                console.log('Interceptor caught error', response.error);
+                this.log.error('HttpErrorInterceptor', response.error);
                 return throwError(response.error);
             })
         );

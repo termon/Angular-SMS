@@ -15,6 +15,7 @@ import { HttpErrorInterceptor } from './core/interceptors/HttpErrorInterceptor';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudentModule } from './modules/student/student.module';
+import { AuthComponent } from './modules/auth/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { StudentModule } from './modules/student/student.module';
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
-          console.log('getting token for JWThelper');
+          // console.log('getting token for JWThelper');
           return localStorage.getItem('token');
         },
         allowedDomains: ['localhost:5001'], // unless set correctly auth header will not be added
@@ -38,7 +39,6 @@ import { StudentModule } from './modules/student/student.module';
     // application feature modules
     CoreModule,
     AuthModule,
-    StudentModule,
   ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }

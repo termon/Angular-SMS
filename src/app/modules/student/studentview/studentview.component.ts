@@ -7,6 +7,7 @@ import { StudentDto } from '../models/student';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
+import { LogService } from 'src/app/core/services/log.service';
 
 @Component({
   selector: 'app-studentview',
@@ -51,7 +52,6 @@ export class StudentviewComponent implements OnInit {
 
   private delete(student: StudentDto): void {
     this.studentService.delete(student.id).subscribe((r) => {
-      console.log('deleted student ', student.id);
       this.router.navigate(['/students']);
       this.toastr.success('Student Deleted Successfully');
     });

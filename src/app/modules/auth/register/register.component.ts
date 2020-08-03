@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Role } from '../models/Role';
 import { RegisteredValidator } from './registered.validator';
+import { LogService } from 'src/app/core/services/log.service';
 
 @Component({
   selector: 'app-register',
@@ -16,19 +17,23 @@ export class RegisterComponent implements OnInit {
   roles = Role.values();
   model: Register;
 
-  constructor(private auth: AuthService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private toastr: ToastrService,
+    private log: LogService
+  ) { }
 
   ngOnInit(): void {
     this.model = new Register();
-    console.log(this.roles);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.toastr.success('Registration Cancelled');
     this.router.navigate(['/auth/login']);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.auth.register(this.model)
         .subscribe(
           s => {
@@ -37,6 +42,7 @@ export class RegisterComponent implements OnInit {
           },
           e => {
             this.toastr.error(e.message);
+            this.log.error('Register', e);
           }
         );
   }

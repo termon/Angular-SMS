@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ConfirmModalComponent } from '../../../core/confirm-modal/confirm-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LogService } from 'src/app/core/services/log.service';
 
 @Component({
   selector: 'app-studentlist',
@@ -21,19 +22,20 @@ export class StudentlistComponent implements OnInit, OnDestroy {
   constructor(public studentService: StudentService,
               private router: Router,
               private toastr: ToastrService,
-              private modal: NgbModal
+              private modal: NgbModal,
+              private log: LogService
   ) { }
 
   ngOnInit(): void {
     // subscribe to students stream
-    console.log('studentList subscribe to sub');
+    this.log.debug('StudentList Component', 'subscribe to studentService list');
     this.sub = this.studentService.students$.subscribe(
        s => this.students = s
     );
   }
 
   ngOnDestroy(): void {
-    console.log('studentList unsubscribe from sub');
+    this.log.debug('StudentList Component', 'unsubscribe from studentService list');
     this.sub.unsubscribe();
   }
 
@@ -48,7 +50,10 @@ export class StudentlistComponent implements OnInit, OnDestroy {
           e => this.toastr.error(e.message)
         );
       },
-      (reject) => this.toastr.info('Student deletion Cancelled')
+      (reject) => {
+        this.toastr.info('Student deletion Cancelled');
+        this.log.debug('StudentList Component', 'delete', reject);
+      }
     );
   }
 
