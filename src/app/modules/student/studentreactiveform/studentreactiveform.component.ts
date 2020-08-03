@@ -22,7 +22,10 @@ export class StudentreactiveformComponent implements OnInit, OnChanges {
   @Output() saveEmitter = new EventEmitter<StudentDto>();
   @Output() cancelEmitter = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private service: StudentService) {}
+  constructor(
+    private fb: FormBuilder,
+    private service: StudentService
+  ) {}
 
   ngOnInit(): void {
     // create form
