@@ -14,8 +14,8 @@ import { HttpErrorInterceptor } from './core/interceptors/HttpErrorInterceptor';
 
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { StudentModule } from './modules/student/student.module';
-import { AuthComponent } from './modules/auth/auth/auth.component';
+
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -29,16 +29,14 @@ import { AuthComponent } from './modules/auth/auth/auth.component';
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          // console.log('getting token for JWThelper');
-          return localStorage.getItem('token');
-        },
+        tokenGetter: () => localStorage.getItem('token'),
         allowedDomains: ['localhost:5001'], // unless set correctly auth header will not be added
       },
     }),
     // application feature modules
     CoreModule,
     AuthModule,
+    NgxSpinnerModule
   ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }

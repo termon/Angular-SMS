@@ -12,13 +12,23 @@ import { Observable, throwError, of } from 'rxjs';
 import { map, catchError} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { LogService } from '../services/log.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-    constructor(private toastr: ToastrService, private log: LogService) {}
+    constructor(
+        private toastr: ToastrService,
+        private log: LogService,
+        private spinner: NgxSpinnerService
+    ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // simulated delay to test spinner during requests
+        this.spinner.show();
+        setInterval( () => {
+            this.spinner.hide();
+        }, 1000);
 
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {

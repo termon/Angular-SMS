@@ -6,6 +6,7 @@ import {  tap } from 'rxjs/operators';
 import { StudentDto, TicketDto } from '../models/student';
 import { LoadingService } from 'src/app/core/loading/loading.service';
 import { LogService } from 'src/app/core/services/log.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root', // makes it a singleton
@@ -23,7 +24,6 @@ export class StudentService {
 
   constructor(
     private http: HttpClient,
-    private loadingService: LoadingService,
     private log: LogService
   ) {
     this.loadStudents();
@@ -31,16 +31,11 @@ export class StudentService {
 
   // update observable students$ stream with data from api
   loadStudents(): void {
-    this.loadingService.loadingOn();
     this.getStudents().subscribe(
       r => {
-        // simulated delay to test loading spinner
-        setTimeout(() => {
           this.log.debug('Studentservice', 'loading students', r);
           this.students = r;
           this.studentsSubject$.next(this.students);
-          this.loadingService.loadingOff();
-        }, 1000);
       },
       e => this.log.error('Student Service', 'loading students', e),
     );
@@ -48,17 +43,14 @@ export class StudentService {
 
   // update observable current$ student stream with data from api
   loadCurrent(id: number): void {
-    this.loadingService.loadingOn();
     this.getStudent(id).subscribe(
       s => {
           this.log.debug('Studentservice', 'loading student', s);
           this.current = s;
           this.currentSubject$.next(this.current);
-          this.loadingService.loadingOff();
       },
       e => {
           this.log.error('Studentservice', 'loading student', e);
-          this.loadingService.loadingOff();
       }
     );
   }
