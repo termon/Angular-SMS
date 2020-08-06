@@ -1,18 +1,35 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 import { LoadingComponent } from './loading/loading.component';
-import { BootstrapModule } from './bootstrap/bootstrap.module';
-import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { LogService } from './services/log.service';
+import { HttpErrorInterceptor } from './interceptors/HttpErrorInterceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
-  declarations: [ LoadingComponent, ConfirmModalComponent ],
+  declarations: [ LoadingComponent ],
   imports: [
     CommonModule,
-    BootstrapModule
+    ToastrModule.forRoot({ timeOut: 2000, preventDuplicates: true }),
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('token'),
+        allowedDomains: ['localhost:5001'], // unless set correctly auth header will not be added
+      },
+    }),
+    NgxSpinnerModule,
+    BrowserAnimationsModule
   ],
-  entryComponents: [ ConfirmModalComponent ], // loaded imperatively rather than referenced in template
-  providers: [ LogService ],
-  exports: [ LoadingComponent, BootstrapModule, ConfirmModalComponent, CommonModule ]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    LogService
+  ],
+  exports: [ LoadingComponent, CommonModule, BrowserAnimationsModule, NgxSpinnerModule, ToastrModule ]
 })
 export class CoreModule {
 

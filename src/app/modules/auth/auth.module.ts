@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -8,19 +8,21 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthComponent } from './auth/auth.component';
+import { RegisterReactiveComponent } from './register-reactive/register-reactive.component';
 
-// JwtModule and HttpClientModule must be added to root module
+import { AuthMenuComponent } from './auth-menu/auth-menu.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, AuthComponent],
+  declarations: [LoginComponent, RegisterComponent, RegisterReactiveComponent, AuthMenuComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     AuthRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, AuthGuardService],
-  exports: [AuthComponent] // components accessible outside the module
+  exports: [AuthMenuComponent] // components accessible outside the module
 })
 
 export class AuthModule {}

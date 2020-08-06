@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="card">
+        
+        <div class="card-header bg-primary">
+            <h5 class="text-light">Registration Details</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input formControlName="name"  name="name" class="form-control"/>
+                <span class="text-danger" *ngIf="f.name.touched && f.name.errors?.required">Name required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input formControlName="email" name="email" class="form-control"/>
+                <span class="text-danger" *ngIf="f.email.touched && f.email.errors?.required">Email required</span>
+                <span class="text-danger" *ngIf="f.email.touched && f.email.errors?.emailNotAvailable">Email already registered</span>        
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="control-label">Password</label>
+                <input formControlName="password"  name="password" class="form-control"/>
+                <div class="text-danger" *ngIf="f.password.touched && f.password.errors.required">Password required</div>
+                <div class="text-danger" *ngIf="f.password.touched && f.password.errors.minlength">Password must be at least 4 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword" class="control-label">Confirm Password</label>
+                <input formControlName="confirmPassword"  name="confirmPassword" class="form-control"/>
+                <span class="text-danger" *ngIf="f.confirmPassword.touched && f.password.invalid">Passwords must match</span>
+            </div>
+      
+            <div class="form-group">
+                <label for="role" class="control-label">Role</label>
+                <select formControlName="role" name="role" class="form-control">
+                    <option *ngFor="let role of roles; index as key;" [ngValue]="key">{{role}}</option>
+                </select>
+                <span class="text-danger" *ngIf="f.role.touched && f.role.invalid">Role</span>
+            </div>
+
+        </div>
+
+        <div class="card-footer">           
+            <input type="submit" value="Save" class="btn btn-primary mr-3" [disabled]="!form.valid"/>
+            <a class="btn btn-secondary" (click)="onCancel()">Cancel</a>
+        </div>
+    </div>
+
+</form>
+

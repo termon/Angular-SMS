@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 
 import { GradePipe } from './pipes/grade.pipe';
@@ -13,7 +12,7 @@ import { StudentcreateComponent } from './studentcreate/studentcreate.component'
 import { StudentupdateComponent } from './studentupdate/studentupdate.component';
 import { StudentreactiveformComponent } from './studentreactiveform/studentreactiveform.component';
 import { EmailAvailableValidator } from './studentform/emailavailable-validator';
-import { CoreModule } from '../../core/core.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -27,12 +26,10 @@ import { CoreModule } from '../../core/core.module';
     EmailAvailableValidator
   ],
   imports: [
-    CoreModule,
-    // CommonModule, // in core module so not needed
+    SharedModule,
     StudentRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-
   ],
   exports: [
     StudentlistComponent,

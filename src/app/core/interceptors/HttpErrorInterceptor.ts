@@ -28,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         this.spinner.show();
         setInterval( () => {
             this.spinner.hide();
-        }, 1000);
+        }, 500);
 
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {

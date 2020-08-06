@@ -1,7 +1,7 @@
-export enum Role { 
+export enum Role {
     Admin = 0,
     Manager = 1,
-    Guest = 2 
+    Guest = 2
 }
 
 export namespace Role {

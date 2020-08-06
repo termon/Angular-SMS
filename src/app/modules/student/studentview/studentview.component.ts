@@ -6,8 +6,7 @@ import { StudentService } from '../services/student.service';
 import { StudentDto } from '../models/student';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
-import { LogService } from 'src/app/core/services/log.service';
+import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-studentview',

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
+// using ngx spinner instead as it provides an overlay and custom spinners
 
 @Injectable({
   providedIn: 'root'

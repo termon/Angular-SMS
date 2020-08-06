@@ -5,13 +5,17 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  selector: 'app-auth-menu',
+  templateUrl: './auth-menu.component.html',
+  styleUrls: ['./auth-menu.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthMenuComponent implements OnInit {
 
-  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    public auth: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
   }
