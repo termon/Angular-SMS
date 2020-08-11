@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StudentDto } from '../models/student';
-import { EmailAvailableValidator } from './emailavailable-validator';
 
 @Component({
   selector: 'app-studentform',
