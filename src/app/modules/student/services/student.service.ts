@@ -7,6 +7,7 @@ import { StudentDto, TicketDto } from '../models/student';
 import { LoadingService } from 'src/app/core/loading/loading.service';
 import { LogService } from 'src/app/core/services/log.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProblemDetails } from 'src/app/core/models/ErrorResponse';
 
 @Injectable({
   providedIn: 'root', // makes it a singleton

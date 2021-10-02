@@ -3,9 +3,9 @@
 <form #loginForm="ngForm" (ngSubmit)="onSubmit()" method="post">
    
    <div class="form-group">
-        <label for="emailAddress" class="control-label">Email</label>
-        <input id="emailAddress" [(ngModel)]="model.emailAddress" #emailAddress="ngModel" name="emailAddress" class="form-control" required email/>
-        <span class="text-danger" *ngIf="emailAddress.touched && emailAddress.invalid">Valid email address required</span>
+        <label for="email" class="control-label">Email</label>
+        <input id="email" [(ngModel)]="model.email" #email="ngModel" name="email" class="form-control" required email/>
+        <span class="text-danger" *ngIf="email.touched && email.invalid">Valid email address required</span>
     </div>
 
     <div class="form-group">

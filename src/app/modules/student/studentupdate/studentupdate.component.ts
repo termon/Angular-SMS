@@ -41,7 +41,7 @@ export class StudentupdateComponent implements OnInit {
           this.toastr.success(`Completed ${this.mode}`);
       },
       e => {
-        this.toastr.error(`${e.message} - ${e.errors.join()}`);
+        this.toastr.error(`Status:${e.status} - ${e.title}`);
       }
     );
   }

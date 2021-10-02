@@ -25,7 +25,7 @@ export class AuthService implements OnDestroy {
 
   login(email: string, password: string ): Observable<User> {
       return this.http
-        .post<User>(`${this.baseUrl}/api/user/login`, { emailAddress: email, password})
+        .post<User>(`${this.baseUrl}/api/user/login`, { email, password})
         .pipe(
           tap( r => {
               this.setSession(r.token);

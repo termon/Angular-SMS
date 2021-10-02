@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.log.debug('LoginComponent onSubmit', this.model);
-    this.auth.login(this.model.emailAddress, this.model.password)
+    this.auth.login(this.model.email, this.model.password)
         .subscribe(
           r => this.loginSuccess(r),
           e => this.loginFailure(e)

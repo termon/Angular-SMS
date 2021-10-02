@@ -39,11 +39,11 @@ export class RegisterReactiveComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // create form
     this.form = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email], [this.emailAvailableAsync()]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
-      confirmPassword: ['', [Validators.required]],
-      role: ['', [Validators.required]]
+      name: ['Test', [Validators.required]],
+      email: ['test@mail.com', [Validators.required, Validators.email], [this.emailAvailableAsync()]],
+      password: ['test', [Validators.required, Validators.minLength(4)]],
+      confirmPassword: ['test', [Validators.required]],
+      role: ['Manager', [Validators.required]]
     }, {
       validator: this.mustMatch('password', 'confirmPassword')
   });

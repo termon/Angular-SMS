@@ -3,6 +3,7 @@ import { StudentDto } from '../models/student';
 import { StudentService } from '../services/student.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ProblemDetails } from 'src/app/core/models/ErrorResponse';
 
 @Component({
   selector: 'app-studentcreate',
@@ -24,6 +25,9 @@ export class StudentcreateComponent {
       this.studentService.add(this.model).subscribe(r => {
             this.router.navigate(['/students']);
             this.toastr.success('Student Created Successfully');
+      },
+      (e:ProblemDetails) => {           
+        this.toastr.error(`${e.status} - ${e.title}`);
       });
   }
 
