@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Login } from '../models/Login';
-
-import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { Login } from '../models/Login';
 import { User } from '../models/user';
-import { LogService } from 'src/app/core/services/log.service';
+import { LogService } from '@app/core/services/log.service';
+import { AuthService } from '@app/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',

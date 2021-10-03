@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -16,10 +16,11 @@
       "es2018",
       "dom"
     ],
-    /* AMC - added to remove ../../../ hell */
-    // "paths": {
-		// 	"@app": ["app/*"],
-		// }
+    "paths": {
+      // "@core/*": ["app/core/*"],
+		  "@app/*": ["app/*"],
+      "@environments/*": ["environments/*"],
+		}
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

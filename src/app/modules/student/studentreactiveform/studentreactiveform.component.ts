@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 import { StudentService } from '../services/student.service';
 import { StudentDto } from '../models/student';
-import { Observable } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
 
 // Consider using @rxweb/reactive-form-validators
 // https://medium.com/angular-in-depth/new-way-to-validate-the-angular-reactive-form-2c4fe4f13373

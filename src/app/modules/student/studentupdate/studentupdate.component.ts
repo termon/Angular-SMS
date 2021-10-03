@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentDto } from '../models/student';
-import { StudentService } from '../services/student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
+import { StudentDto } from '../models/student';
+import { StudentService } from '../services/student.service';
 @Component({
   selector: 'app-studentupdate',
   templateUrl: './studentupdate.component.html',

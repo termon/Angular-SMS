@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentDto } from '../models/student';
-import { StudentService } from '../services/student.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ProblemDetails } from 'src/app/core/models/ErrorResponse';
+
+import { StudentDto } from '../models/student';
+import { StudentService } from '../services/student.service';
+import { ProblemDetails } from '@app/core/models/ErrorResponse';
 
 @Component({
   selector: 'app-studentcreate',

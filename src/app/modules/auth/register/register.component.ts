@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Register } from '../models/Register';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+
+import { Register } from '../models/Register';
+import { AuthService } from '../services/auth.service';
 import { Role } from '../models/Role';
 import { RegisteredValidator } from './registered.validator';
-import { LogService } from 'src/app/core/services/log.service';
+import { LogService } from '@app/core/services/log.service';
 
 @Component({
   selector: 'app-register',

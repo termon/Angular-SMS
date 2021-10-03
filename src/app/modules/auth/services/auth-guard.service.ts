@@ -1,11 +1,12 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { AuthService } from './auth.service';
-import { LogService } from 'src/app/core/services/log.service';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
+import { AuthService } from './auth.service';
+import { LogService } from '@app/core/services/log.service';
+
+@Injectable({
+  providedIn: 'root'
+})
 @Injectable()
 export class AuthGuardService implements CanActivate, OnDestroy {
 
@@ -14,7 +15,7 @@ export class AuthGuardService implements CanActivate, OnDestroy {
     public router: Router,
     private log: LogService
   ) {
-    log.debug('AuthGuard', 'created...');
+    log.info('AuthGuard', 'created...');
   }
 
   canActivate(): boolean {
@@ -23,11 +24,11 @@ export class AuthGuardService implements CanActivate, OnDestroy {
       this.router.navigate(['/auth/login']);
       return false;
     }
-    this.log.info('AuthGuard authenticated');
+    this.log.debug('AuthGuard authenticated');
     return true;
   }
 
   ngOnDestroy(): void {
-    this.log.debug('AuthGuard', 'destroyed...');
+    this.log.info('AuthGuard', 'destroyed...');
   }
 }

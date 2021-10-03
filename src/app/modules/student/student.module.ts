@@ -12,7 +12,7 @@ import { StudentcreateComponent } from './studentcreate/studentcreate.component'
 import { StudentupdateComponent } from './studentupdate/studentupdate.component';
 import { StudentreactiveformComponent } from './studentreactiveform/studentreactiveform.component';
 import { EmailAvailableValidator } from './validators/emailavailable-validator';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [

@@ -4,12 +4,14 @@ import { Observable, BehaviorSubject, Subject  } from 'rxjs';
 import {  shareReplay, tap } from 'rxjs/operators';
 
 import { CloseTicketDto, StudentDto, TicketDto } from '../models/student';
-import { LogService } from 'src/app/core/services/log.service';
+import { LogService } from '@app/core/services/log.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root', // makes it a singleton
 })
 export class StudentService {
+  private baseUrl = environment.apiUrl ?? 'https://localhost:5001';
 
   private students: StudentDto[] = [];
   private current: StudentDto = new StudentDto();
@@ -74,7 +76,8 @@ export class StudentService {
       tap(
         r => {
           this.log.info('StudentService', 'add', s);
-          tap(n => this.studentsSubject$.next([...this.students, s]))
+          this.students = [...this.students, s];
+          this.studentsSubject$.next(this.students)
           //this.loadStudents();
         },
         e => {
@@ -90,7 +93,8 @@ export class StudentService {
       tap(
         r => {
           this.log.info('StudentService', 'update', s);
-          tap(() => this.currentSubject$.next(r))
+          this.current = r;
+          this.currentSubject$.next(this.current)
           //this.loadStudents();
         },
         e => {
@@ -106,7 +110,8 @@ export class StudentService {
       tap(
         r => {
           //this.loadStudents();
-          tap(() => this.studentsSubject$.next([...this.students.filter(e => e.id !== id)]))
+          this.students = [...this.students.filter(s => s.id !== id)];
+          this.studentsSubject$.next(this.students);
           this.log.info('StudentService', 'delete', id);
         },
         e => {
@@ -139,37 +144,37 @@ export class StudentService {
 
   // ------------------ Web API Requests -------------------------
   private getStudents(): Observable<StudentDto[]> {
-      return this.http.get<StudentDto[]>('https://localhost:5001/api/student');
+      return this.http.get<StudentDto[]>(`${this.baseUrl}/api/student`);
   }
 
   private getStudent(id: number): Observable<StudentDto> {
-    return this.http.get<StudentDto>(`https://localhost:5001/api/student/${id}`);
+    return this.http.get<StudentDto>(`${this.baseUrl}/api/student/${id}`);
         // use shareReplay to avoid duplicate http call by subscriber when observable returned
         //.pipe(shareReplay());
   }
 
   private addStudent(student: StudentDto): Observable<StudentDto> {
-    return this.http.post<StudentDto>('https://localhost:5001/api/student', student);
+    return this.http.post<StudentDto>(`${this.baseUrl}/api/student`, student);
   }
 
   private updateStudent(student: StudentDto): Observable<StudentDto> {
-    return this.http.put<StudentDto>(`https://localhost:5001/api/student/${student.id}`, student);
+    return this.http.put<StudentDto>(`${this.baseUrl}/api/student/${student.id}`, student);
   }
 
   private deleteStudent(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`https://localhost:5001/api/student/${id}`);
+    return this.http.delete<boolean>(`${this.baseUrl}/api/student/${id}`);
   }
 
   private emailIsAvailable(email: string, id?: number): Observable<boolean> {
     if (id === undefined) {
-      return this.http.get<boolean>(`https://localhost:5001/api/student/verify/${email}`);
+      return this.http.get<boolean>(`${this.baseUrl}/api/student/verify/${email}`);
     } else {
-      return this.http.get<boolean>(`https://localhost:5001/api/student/verify/${email}/${id}`);
+      return this.http.get<boolean>(`${this.baseUrl}/api/student/verify/${email}/${id}`);
     }
   }
 
   private closeTicket(dto: CloseTicketDto): Observable<TicketDto> {
-    return this.http.put<TicketDto>(`https://localhost:5001/api/ticket/close/${dto.id}`, dto );
+    return this.http.put<TicketDto>(`${this.baseUrl}/api/ticket/close/${dto.id}`, dto );
   }
 
 }

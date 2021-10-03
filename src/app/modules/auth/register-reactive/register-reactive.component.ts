@@ -1,15 +1,12 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-
-import { AuthService } from '../services/auth.service';
-
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-import { LogService } from 'src/app/core/services/log.service';
-
+import { AuthService } from '@app/modules/auth/services/auth.service';
+import { LogService } from '@app/core/services/log.service';
 import { Register } from '../models/Register';
 import { Role } from '../models/Role';
 

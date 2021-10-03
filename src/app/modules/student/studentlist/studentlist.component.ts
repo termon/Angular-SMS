@@ -5,9 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StudentDto } from '../models/student';
 import { StudentService } from '../services/student.service';
-
-import { ConfirmModalComponent } from '../../../shared/confirm-modal/confirm-modal.component';
-import { LogService } from '../../../core/services/log.service';
+import { ConfirmModalComponent } from '@app/shared/confirm-modal/confirm-modal.component';
+import { LogService } from '@app/core/services/log.service';
 
 @Component({
   selector: 'app-studentlist',

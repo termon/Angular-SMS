@@ -6,42 +6,44 @@ import { Register } from '../models/Register';
 import { tap } from 'rxjs/operators';;
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
-import { LogService } from '../../../core/services/log.service';
+import { LogService } from '@app/core/services/log.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
 
-  private baseUrl = 'https://localhost:5001';
+  private baseUrl = environment.apiUrl ?? 'https://localhost:5001';
 
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
     private log: LogService
   ) {
-    this.log.debug('AuthService', 'created....');
+    this.log.info('AuthService', 'created....');
   }
 
-  login(email: string, password: string ): Observable<User> {
-      return this.http
-        .post<User>(`${this.baseUrl}/api/user/login`, { email, password})
-        .pipe(
-          tap( r => {
-              this.setSession(r.token);
-          })
-        );
+  login(email: string, password: string): Observable<User> {
+    this.log.info('AuthService', 'Login', email);
+    return this.http
+      .post<User>(`${this.baseUrl}/api/user/login`, { email, password })
+      .pipe(
+        tap(r => {
+          this.setSession(r.token);
+        })
+      );
   }
 
-  register(request: Register ): Observable<User> {
+  register(request: Register): Observable<User> {
     this.log.info('AuthService', 'Register', request);
     return this.http
       .post<User>(`${this.baseUrl}/api/user/register`, request);
   }
 
   logout(): void {
-      this.log.info('AuthService', 'logout');
-      localStorage.removeItem('token');
+    this.log.info('AuthService', 'logout');
+    localStorage.removeItem('token');
   }
 
   isLoggedIn(): boolean {
@@ -62,7 +64,7 @@ export class AuthService implements OnDestroy {
   }
 
   isLoggedOut(): boolean {
-      return !this.isLoggedIn();
+    return !this.isLoggedIn();
   }
 
   private setSession(authResult: string): void {
@@ -76,7 +78,7 @@ export class AuthService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.log.debug('AuthService destroyed....');
+    this.log.info('AuthService destroyed....');
   }
 
 }

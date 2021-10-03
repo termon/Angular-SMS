@@ -11,7 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { RegisterReactiveComponent } from './register-reactive/register-reactive.component';
 
 import { AuthMenuComponent } from './auth-menu/auth-menu.component';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, RegisterReactiveComponent, AuthMenuComponent],

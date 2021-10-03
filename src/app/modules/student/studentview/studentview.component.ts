@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { StudentService } from '../services/student.service';
 import { CloseTicketDto, StudentDto } from '../models/student';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '@app/shared/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-studentview',
@@ -15,7 +15,7 @@ import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-moda
 })
 export class StudentviewComponent implements OnInit {
   student: StudentDto = new StudentDto();
-  
+
   constructor(
     private studentService: StudentService,
     private router: Router,
