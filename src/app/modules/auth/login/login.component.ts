@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  // global HttpErrorInterceptor handles errors so this function not required
   private loginFailure(r: HttpErrorResponse): void {
       this.log.error('Login Response', r);
       this.toastr.error(r.message, 'Error', {timeOut: 5000});
@@ -43,8 +44,7 @@ export class LoginComponent implements OnInit {
     this.log.debug('LoginComponent onSubmit', this.model);
     this.auth.login(this.model.email, this.model.password)
         .subscribe(
-          r => this.loginSuccess(r),
-          e => this.loginFailure(e)
+          r => this.loginSuccess(r)
         );
   }
 

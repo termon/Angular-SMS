@@ -22,7 +22,7 @@ export class RegisterReactiveComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   roles = Role.values();
-  model: Register;
+  model: Register = new Register();
 
   // @Input() model = new Register();
   // @Output() saveEmitter = new EventEmitter<Register>();
@@ -65,6 +65,12 @@ export class RegisterReactiveComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
+    this.model.name = this.f.name.value;
+    this.model.email = this.f.email.value;
+    this.model.password = this.f.password.value;
+    this.model.confirmPassword = this.f.confirmPassword.value;
+    this.model.role = this.f.role.value;
+
     this.service.register(this.model)
         .subscribe(
           s => {
@@ -86,7 +92,9 @@ export class RegisterReactiveComponent implements OnInit, OnChanges {
     if (changes.model && this.form) {
       this.form.patchValue( {
         name: this.model.name,
+        email: this.model.email,
         password: this.model.password,
+        confirmPassword: this.model.confirmPassword,
         role: this.model.role
       });
       // force validators to run when form loaded
@@ -123,6 +131,6 @@ export class RegisterReactiveComponent implements OnInit, OnChanges {
             matchingControl.setErrors(null);
         }
     }
-}
+  }
 
 }

@@ -20,6 +20,7 @@
       <td>{{s.age}}</td>
       <td>
         <a class="btn btn-link btn-sm" [routerLink]="['/students', s.id]">View</a>
+        <a class="btn btn-link btn-sm" [routerLink]="['/students', s.id, 'update']">Update</a>
         <button (click)="delete(s)" class="btn btn-link btn-sm">Delete</button>
       </td>
     </tr>

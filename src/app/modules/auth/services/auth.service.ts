@@ -40,7 +40,7 @@ export class AuthService implements OnDestroy {
   }
 
   logout(): void {
-      this.log.debug('AuthService', 'logout');
+      this.log.info('AuthService', 'logout');
       localStorage.removeItem('token');
   }
 
@@ -52,7 +52,13 @@ export class AuthService implements OnDestroy {
 
   getEmail(): string {
     const claims = this.jwtHelper.decodeToken(localStorage.getItem('token'));
-    return ('email' in claims) ? claims.email : '';
+    return claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? 'Unknown'
+  }
+
+  getName(): string {
+    const claims = this.jwtHelper.decodeToken(localStorage.getItem('token'));
+    return claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ?? 'Unknown';
+    //return ('name' in claims) ? claims.name : 'Unknown';
   }
 
   isLoggedOut(): boolean {

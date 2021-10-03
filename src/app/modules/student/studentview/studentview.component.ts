@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { StudentService } from '../services/student.service';
-import { StudentDto } from '../models/student';
+import { CloseTicketDto, StudentDto } from '../models/student';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
@@ -15,8 +15,7 @@ import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-moda
 })
 export class StudentviewComponent implements OnInit {
   student: StudentDto = new StudentDto();
-  sub: Subject<StudentDto>;
-
+  
   constructor(
     private studentService: StudentService,
     private router: Router,
@@ -27,9 +26,13 @@ export class StudentviewComponent implements OnInit {
 
   ngOnInit(): void {
     // use service to load requested student into current$ stream
-    this.loadStudentFromRouteParam();
+    this.studentService.loadCurrent(+this.route.snapshot.paramMap.get('id'))
+
     // subscribe to service current$ student steam
-    this.studentService.current$.subscribe(c => this.student = c);
+    this.studentService.current$.subscribe(
+      c => this.student = c,
+      e => this.toastr.error(e.message)
+    );
   }
 
   confirm(student: StudentDto): void {
@@ -42,11 +45,13 @@ export class StudentviewComponent implements OnInit {
     );
   }
 
-  closeTicket(id: number): void {
-    this.studentService.close(id).subscribe(
-      r => this.toastr.success(`Ticket ${r.id} closed Successfully`),
-      e => this.toastr.error(e.message)
-      );
+  closeTicket(id:number): void {
+    // TODO: default resolution until form input feature added
+    const dto: CloseTicketDto = { id, resolution: 'default resolution' }
+
+    this.studentService.close(dto).subscribe(
+      r => this.toastr.success(`Ticket ${r.id} closed Successfully`)
+    );
   }
 
   private delete(student: StudentDto): void {
@@ -56,6 +61,7 @@ export class StudentviewComponent implements OnInit {
     });
   }
 
+  // alternative approach subscribes to
   private loadStudentFromRouteParam(): void {
     this.route.paramMap.subscribe(
       params => {

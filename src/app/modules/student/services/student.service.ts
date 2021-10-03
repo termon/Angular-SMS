@@ -1,44 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, of  } from 'rxjs';
-import {  tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subject  } from 'rxjs';
+import {  shareReplay, tap } from 'rxjs/operators';
 
-import { StudentDto, TicketDto } from '../models/student';
-import { LoadingService } from 'src/app/core/loading/loading.service';
+import { CloseTicketDto, StudentDto, TicketDto } from '../models/student';
 import { LogService } from 'src/app/core/services/log.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ProblemDetails } from 'src/app/core/models/ErrorResponse';
 
 @Injectable({
   providedIn: 'root', // makes it a singleton
 })
 export class StudentService {
 
-  students: StudentDto[] = [];
-  current: StudentDto = new StudentDto();
+  private students: StudentDto[] = [];
+  private current: StudentDto = new StudentDto();
 
   private studentsSubject$ = new BehaviorSubject<StudentDto[]>(this.students);
   private currentSubject$ = new BehaviorSubject<StudentDto>(this.current);
+  private errorSubject$ = new Subject<string>();
 
   students$ = this.studentsSubject$.asObservable();
   current$ = this.currentSubject$.asObservable();
+  // a global errorSubject that components can subscribe to if they want to access errors
+  // not strictly necessary given errors are handled using global HttpErrorInterceptor
+  error$ = this.errorSubject$.asObservable();
 
   constructor(
     private http: HttpClient,
     private log: LogService
   ) {
-    this.loadStudents();
+    this.log.info('StudentService Created....')
   }
 
   // update observable students$ stream with data from api
   loadStudents(): void {
     this.getStudents().subscribe(
       r => {
-          this.log.debug('Studentservice', 'loading students', r);
+          this.log.info('Studentservice', 'loading students', r);
           this.students = r;
           this.studentsSubject$.next(this.students);
       },
-      e => this.log.error('Student Service', 'loading students', e),
+      e => {
+         this.log.error('Student Service', 'loading students', e);
+         this.errorSubject$.next(e.detail)
+      }
     );
   }
 
@@ -46,34 +50,38 @@ export class StudentService {
   loadCurrent(id: number): void {
     this.getStudent(id).subscribe(
       s => {
-          this.log.debug('Studentservice', 'loading student', s);
+          this.log.info('Studentservice', 'loading student', s);
           this.current = s;
           this.currentSubject$.next(this.current);
       },
       e => {
-          this.log.error('Studentservice', 'loading student', e);
+        this.log.error('Student Service', 'loading student', e);
+        this.errorSubject$.next(e.detail)
       }
     );
   }
 
   clear(): void {
     this.students = [];
-    this.log.debug('Studentservice', 'Clear');
+    this.current = new StudentDto();
+    this.log.info('Studentservice', 'Clear');
     this.studentsSubject$.next(this.students);
+    this.currentSubject$.next(this.current);
   }
 
   add(s: StudentDto): Observable<StudentDto> {
     return this.addStudent(s).pipe(
       tap(
         r => {
-          this.log.debug('StudentService', 'add', s);
-          this.loadStudents();
+          this.log.info('StudentService', 'add', s);
+          tap(n => this.studentsSubject$.next([...this.students, s]))
+          //this.loadStudents();
         },
         e => {
           this.log.error('StudentService', 'add', e);
+          this.errorSubject$.next(e.detail)
         }
       )
-      // tap(n => this.studentSubject$.next([...this.students, n]))
     );
   }
 
@@ -81,14 +89,15 @@ export class StudentService {
     return this.updateStudent(s).pipe(
       tap(
         r => {
-          this.log.debug('StudentService', 'update', s);
-          this.loadStudents();
+          this.log.info('StudentService', 'update', s);
+          tap(() => this.currentSubject$.next(r))
+          //this.loadStudents();
         },
         e => {
           this.log.error('StudentService', 'update', e);
+          this.errorSubject$.next(e.detail)
         }
       )
-      // tap(u => this.studentSubject$.next([...this.students.filter(e => e.id !== u.id), u]))
     );
   }
 
@@ -96,27 +105,29 @@ export class StudentService {
     return this.deleteStudent(id).pipe(
       tap(
         r => {
-          this.loadStudents();
-          this.log.debug('StudentService', 'delete', id);
+          //this.loadStudents();
+          tap(() => this.studentsSubject$.next([...this.students.filter(e => e.id !== id)]))
+          this.log.info('StudentService', 'delete', id);
         },
         e => {
           this.log.error('StudentService', 'delete', id);
+          this.errorSubject$.next(e.detail)
         }
       )
-      // tap(() => this.studentSubject$.next([...this.students.filter(e => e.id !== id)]))
     );
   }
 
-  close(id: number): Observable<TicketDto> {
-    return this.closeTicket(id)
+  close(dto: CloseTicketDto): Observable<TicketDto> {
+    return this.closeTicket(dto)
       .pipe(
         tap(
           t => {
-            this.log.debug('StudentService', 'close ticket', id);
+            this.log.info('StudentService', 'close ticket', dto.id);
             this.loadCurrent(t.studentId);
           },
           e => {
-            this.log.error('StudentService', 'close ticket', id);
+            this.log.error('StudentService', 'close ticket', dto.id);
+            this.errorSubject$.next(e.detail)
           }
         )
       );
@@ -133,6 +144,8 @@ export class StudentService {
 
   private getStudent(id: number): Observable<StudentDto> {
     return this.http.get<StudentDto>(`https://localhost:5001/api/student/${id}`);
+        // use shareReplay to avoid duplicate http call by subscriber when observable returned
+        //.pipe(shareReplay());
   }
 
   private addStudent(student: StudentDto): Observable<StudentDto> {
@@ -155,8 +168,8 @@ export class StudentService {
     }
   }
 
-  private closeTicket(id: number): Observable<TicketDto> {
-    return this.http.put<TicketDto>(`https://localhost:5001/api/ticket/close/${id}`, {});
+  private closeTicket(dto: CloseTicketDto): Observable<TicketDto> {
+    return this.http.put<TicketDto>(`https://localhost:5001/api/ticket/close/${dto.id}`, dto );
   }
 
 }

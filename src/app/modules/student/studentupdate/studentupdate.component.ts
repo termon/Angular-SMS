@@ -3,7 +3,6 @@ import { StudentDto } from '../models/student';
 import { StudentService } from '../services/student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-studentupdate',
@@ -21,15 +20,9 @@ export class StudentupdateComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => {
-        this.studentService.loadCurrent(+params.get('id'));
-      },
-      error => {
-        this.toastr.error(error.message);
-        this.router.navigate(['/students']);
-      }
-    );
+    // request service load requested student
+    this.studentService.loadCurrent(+this.route.snapshot.paramMap.get('id'))
+
     // subscribe to service current$ student steam
     this.studentService.current$.subscribe(c => this.model = c);
   }
@@ -39,9 +32,6 @@ export class StudentupdateComponent implements OnInit {
       r => {
           this.router.navigate(['/students', this.model.id]);
           this.toastr.success(`Completed ${this.mode}`);
-      },
-      e => {
-        this.toastr.error(`Status:${e.status} - ${e.title}`);
       }
     );
   }

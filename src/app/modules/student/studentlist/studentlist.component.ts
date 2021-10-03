@@ -23,7 +23,10 @@ export class StudentlistComponent {
               private toastr: ToastrService,
               private modal: NgbModal,
               private log: LogService
-  ) { }
+  ) {
+    this.log.info('StudentListComponent Created....');
+    this.studentService.loadStudents();
+  }
 
 
   delete(s: StudentDto): void {
@@ -33,8 +36,7 @@ export class StudentlistComponent {
     ref.result.then(
       (resolve) => {
         this.studentService.delete(s.id).subscribe(
-          r => this.toastr.info('Student deleted'),
-          e => this.toastr.error(e.message)
+          r => this.toastr.info('Student deleted')
         );
       },
       (reject) => {

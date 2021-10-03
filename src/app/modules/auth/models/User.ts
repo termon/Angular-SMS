@@ -1,7 +1,7 @@
 export class User {
     id: number
     name: string
-    emailAddress: string
+    email: string
     password: string
     role: any
     token: string

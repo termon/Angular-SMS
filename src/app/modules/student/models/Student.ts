@@ -10,7 +10,6 @@ export class StudentDto {
     public studentModules: StudentModuleDto[] = []
 
     constructor() {}
-
 }
 
 export class StudentModuleDto {
@@ -31,4 +30,11 @@ export class TicketDto {
     public active = true;
 
     constructor() {}
- }
+}
+
+export class CloseTicketDto {
+  public id: number;
+  public resolution: string = "default resolution";
+
+  constructor() {}
+}

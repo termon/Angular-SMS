@@ -33,12 +33,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse && event.status === 401) {
-                    this.toastr.error('Not Authorised', 'Auth', {timeOut: 6000});
+                    this.toastr.error('Not Authorised', 'Interceptor: Auth', {timeOut: 6000});
                 }
                 return event;
             }),
             catchError((response: HttpErrorResponse) => {
-                this.log.error('HttpErrorInterceptor', response); //.error);
+                this.log.error('HttpErrorInterceptor', response);
+                this.toastr.error(response.error.detail,"Interceptor: " + response.error.title, {timeOut: 4000})
                 return throwError(response.error);
             })
         );

@@ -22,12 +22,10 @@ export class StudentcreateComponent {
   ) { }
 
   onSave(): void {
+      // global HttpErrorInterceptor handles errors
       this.studentService.add(this.model).subscribe(r => {
-            this.router.navigate(['/students']);
+            this.router.navigate(['/students', r.id]);
             this.toastr.success('Student Created Successfully');
-      },
-      (e:ProblemDetails) => {           
-        this.toastr.error(`${e.status} - ${e.title}`);
       });
   }
 
